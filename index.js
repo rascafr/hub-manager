@@ -67,7 +67,7 @@ class HubManager {
      * Sets the authorize callback that wil be called when a client tries to authenticate
      * @param callback the callback function
      */
-    set authorizeClientConnection(callback) {
+    authorizeClientConnection(callback) {
         this.authConnCallback = callback;
     }
 
@@ -75,7 +75,7 @@ class HubManager {
     * Sets the authorize callback that wil be called when a client tries to publish to a topic
     * @param callback the callback function
     */
-    set authorizeClientPublish(callback) {
+    authorizeClientPublish(callback) {
         this.authPubCallback = callback;
     }
 
@@ -83,7 +83,7 @@ class HubManager {
     * Sets the authorize callback that wil be called when a client tries to subscribe to a topic
     * @param callback the callback function
     */
-    set authorizeClientSubscription(callback) {
+    authorizeClientSubscription(callback) {
         this.authSubCallback = callback;
     }
 
@@ -91,7 +91,7 @@ class HubManager {
     * Sets the callback that wil be called when a client is connected to the broker
     * @param callback the callback function
     */
-    set onClientConnected(callback) {
+    onClientConnected(callback) {
         this.connCallback = callback;
     }
 
@@ -99,7 +99,7 @@ class HubManager {
     * Sets the callback that wil be called when a client has subscribed to a topic
     * @param callback the callback function
     */
-    set onClientSubscribed(callback) {
+    onClientSubscribed(callback) {
         this.subCallback = callback;
     }
 
@@ -107,7 +107,7 @@ class HubManager {
     * Sets the callback that wil be called when a client has unsubscribed to a topic
     * @param callback the callback function
     */
-    set onClientUnsubscribed(callback) {
+    onClientUnsubscribed(callback) {
         this.unsubCallback = callback;
     }
 
@@ -115,7 +115,7 @@ class HubManager {
     * Sets the callback that wil be called when a client has published data to a topic
     * @param callback the callback function
     */
-    set onClientPublished(callback) {
+    onClientPublished(callback) {
         this.pubCallback = callback;
     }
 
@@ -123,7 +123,7 @@ class HubManager {
     * Sets the callback that wil be called when a client has disconnected from the borker
     * @param callback the callback function
     */
-    set onClientDisconnected(callback) {
+    onClientDisconnected(callback) {
         this.discCallback = callback;
     }
 
