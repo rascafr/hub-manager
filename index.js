@@ -205,14 +205,16 @@ class HubManager {
             }
         );
         moscaPersistenceDB.wire(this.mqttServer);
-        this.mqttServer.on('ready', self.__broker_setup); // engage the broker setup procedure
+        this.mqttServer.on('ready', function(){
+            __broker_setup(self)
+        }); // engage the broker setup procedure
     }
 
     /**
      * Private function, fired when the mqtt server is ready
      */
-    __broker_setup() {
-        console.log(this);
+    __broker_setup(self) {
+        console.log(self);
         /*this.mqttServer.authenticate =               this.__broker_auth;
         this.mqttServer.authorizePublish =           this.__broker_allow_sub;
         this.mqttServer.authorizeSubscribe =         this.__broker_allow_sub;
