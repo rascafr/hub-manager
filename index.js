@@ -60,6 +60,7 @@ class HubManager {
         this.unsubCallback = null;
         this.pubCallback = null;
         this.discCallback = null;
+        this.readyCallback = null;
 
         // default settings values
         this.ttlSub = 3600 * 2 * 1000;      // 2 hours in ms
@@ -131,6 +132,14 @@ class HubManager {
     */
     onClientDisconnected(callback) {
         this.discCallback = callback;
+    }
+
+    /**
+    * Sets the callback that wil be called when the MQTT broker has been setup
+    * @param callback the callback function
+    */
+    onServerReady(callback) {
+        this.readyCallback = callback;
     }
 
     /**
@@ -231,6 +240,9 @@ class HubManager {
         this.mqttServer.on('unsubscribed', this.__broker_unsubscribed);        
         this.mqttServer.on('clientDisconnecting', this.__broker_disconnecting);
         this.mqttServer.on('clientDisconnected', this.__broker_disconnected);
+        if (this.readyCallback != null) {
+            this.readyCallback(); // indicates that we are ready
+        }
         console.log('[MQTT] Mosca server is up and running on port ' + this.mqttPort);
     }
 
