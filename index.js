@@ -2,6 +2,9 @@
 
 const mqttBroker = require('mosca');
 
+// ugly but only way of doing this (looks like)
+var that;
+
 /**
  * This class represents the Hub Manager MQTT module connection
  * This module will handle the remote connections between the MQTT broker on the server and the MQTT clients (hubs)
@@ -37,6 +40,9 @@ class HubManager {
      * @memberof HubManager
      */
     constructor(mqttPort, mongodbPort) {
+
+        // thx Time
+        that = this;
 
         // module settings
         this.mqttPort = mqttPort;
@@ -208,7 +214,7 @@ class HubManager {
         this.mqttServer.on('ready', function(){
             // TODO fix this because it's ugly
             // but cheers Time Kadel (time.kadel@sfr.fr) <-- this guy is world class! grab him whilst you can
-            self.__broker_setup()
+            self.__broker_setup(self)
         }); // engage the broker setup procedure
     }
 
@@ -216,16 +222,16 @@ class HubManager {
      * Private function, fired when the mqtt server is ready
      */
     __broker_setup() {
-        this.mqttServer.authenticate = function() { self.__broker_auth(); };
-        this.mqttServer.authorizePublish = function() { self.__broker_allow_sub; };
-        this.mqttServer.authorizeSubscribe = function() { self.__broker_allow_sub; };
-        this.mqttServer.on('clientConnected', function() { self.__broker_connected; } );
-        this.mqttServer.on('published', function() { self.__broker_published; } );
-        this.mqttServer.on('subscribed', function() { self.__broker_subscribed; } );
-        this.mqttServer.on('unsubscribed', function() { self.__broker_unsubscribed; } );        
-        this.mqttServer.on('clientDisconnecting', function() { self.__broker_disconnecting; } );
-        this.mqttServer.on('clientDisconnected', function() { self.__broker_disconnected; } );
-        console.log('[MQTT] Mosca server is up and running on port ' + self.mqttPort);
+        this.mqttServer.authenticate = this.__broker_auth;;
+        this.mqttServer.authorizePublish = this.__broker_allow_sub;
+        this.mqttServer.authorizeSubscribe = this.__broker_allow_sub;
+        this.mqttServer.on('clientConnected', this.__broker_connected);
+        this.mqttServer.on('published', this.__broker_published);
+        this.mqttServer.on('subscribed', this.__broker_subscribed);
+        this.mqttServer.on('unsubscribed', this.__broker_unsubscribed);        
+        this.mqttServer.on('clientDisconnecting', this.__broker_disconnecting);
+        this.mqttServer.on('clientDisconnected', this.__broker_disconnected);
+        console.log('[MQTT] Mosca server is up and running on port ' + this.mqttPort);
     }
 
     /**
@@ -233,8 +239,8 @@ class HubManager {
      */
     __broker_auth(client, username, password, callback) {
         console.log('[HubManager MQTT] AUTH : ' + client.id + ' using ' + username + ':' + password);
-        if (this.authConnCallback != null) {
-            callback(null, this.authConnCallback(client, username, password));
+        if (that.authConnCallback != null) {
+            callback(null, that.authConnCallback(client, username, password));
         } else {
             callback(null, false); // block every auth if no callback defined
         }
@@ -244,8 +250,8 @@ class HubManager {
      * Private function, used to allow client subscription
      */
     __broker_allow_sub(client, topic, callback) {
-        if (this.authorizeClientSubscription != null) {
-            callback(null, this.authorizeClientSubscription(client, topic));
+        if (that.authorizeClientSubscription != null) {
+            callback(null, that.authorizeClientSubscription(client, topic));
         } else {
             callback(null, false); // block subscribe if no callback define
         }
@@ -255,8 +261,8 @@ class HubManager {
      * Private function, used to allow client publish action
      */
     __broker_allow_pub(client, topic, payload, callback) {
-        if (this.authorizeClientPublish != null) {
-            callback(null, this.authorizeClientPublish(client, topic, payload));
+        if (that.authorizeClientPublish != null) {
+            callback(null, that.authorizeClientPublish(client, topic, payload));
         } else {
             callback(null, false); // block every publish if no callback defined
         }
@@ -267,8 +273,8 @@ class HubManager {
      */
     __broker_connected(client) {
         console.log('[HubManager MQTT] ' + client.id + ' is now connected');
-        if (this.onClientConnected != null) {
-            this.onClientConnected(client);
+        if (that.onClientConnected != null) {
+            that.onClientConnected(client);
         }
     };
 
@@ -280,8 +286,8 @@ class HubManager {
         // quick fix moche comme MJ
         if (client != undefined) {
             console.log('[HubManager MQTT] ' + client.id + ' published "' + JSON.stringify(packet.payload) + '" to ' + packet.topic);
-            if (this.onClientPublished != null) {
-                this.onClientPublished(client, packet.topic, packet.payload);
+            if (that.onClientPublished != null) {
+                that.onClientPublished(client, packet.topic, packet.payload);
             }
         }
     };
@@ -291,8 +297,8 @@ class HubManager {
      */
     __broker_subscribed(topic, client) {
         console.log('[HubManager MQTT] ' + client.id + ' has subscribed to ' + topic);
-        if (this.onClientSubscribed != null) {
-            this.onClientSubscribed(client, topic);
+        if (that.onClientSubscribed != null) {
+            that.onClientSubscribed(client, topic);
         }
     };
 
@@ -301,8 +307,8 @@ class HubManager {
      */
     __broker_unsubscribed(topic, client) {
         console.log('[HubManager MQTT] ' + client.id + ' has unsubscribed from ' + topic);
-        if (this.onClientUnsubscribed != null) {
-            this.onClientUnsubscribed(client, topic);
+        if (that.onClientUnsubscribed != null) {
+            that.onClientUnsubscribed(client, topic);
         }
     };
 
@@ -319,8 +325,8 @@ class HubManager {
      */
     __broker_disconnected(client) {
         console.log('[HubManager MQTT] ' + client.id + ' is now disconnected');
-        if (this.onClientDisconnected != null) {
-            this.onClientDisconnected(client);
+        if (that.onClientDisconnected != null) {
+            that.onClientDisconnected(client);
         }
     };
 }
