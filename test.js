@@ -6,3 +6,5 @@ var hm = new HubManager(1883, 27017);
 
 // Setup the manager
 hm.setup();
+
+// ...
