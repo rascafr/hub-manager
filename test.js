@@ -23,6 +23,11 @@ hm.authorizeClientConnection(auth_conn);
 hm.authorizeClientSubscription(auth_subs);
 hm.authorizeClientPublish(auth_publ);
 
+// add a ready callback
+hm.onServerReady(function() {
+	console.log('Server is ready :)');
+})
+
 // Setup the manager
 hm.setup();
 
