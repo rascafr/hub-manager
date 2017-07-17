@@ -216,16 +216,16 @@ class HubManager {
      * Private function, fired when the mqtt server is ready
      */
     __broker_setup() {
-        this.mqttServer.authenticate = function() { this.__broker_auth(); };
-        this.mqttServer.authorizePublish = function() { this.__broker_allow_sub; };
-        this.mqttServer.authorizeSubscribe = function() { this.__broker_allow_sub; };
-        this.mqttServer.on('clientConnected', function() { this.__broker_connected; } );
-        this.mqttServer.on('published', function() { this.__broker_published; } );
-        this.mqttServer.on('subscribed', function() { this.__broker_subscribed; } );
-        this.mqttServer.on('unsubscribed', function() { this.__broker_unsubscribed; } );        
-        this.mqttServer.on('clientDisconnecting', function() { this.__broker_disconnecting; } );
-        this.mqttServer.on('clientDisconnected', function() { this.__broker_disconnected; } );
-        console.log('[MQTT] Mosca server is up and running on port ' + this.mqttPort);
+        this.mqttServer.authenticate = function() { self.__broker_auth(); };
+        this.mqttServer.authorizePublish = function() { self.__broker_allow_sub; };
+        this.mqttServer.authorizeSubscribe = function() { self.__broker_allow_sub; };
+        this.mqttServer.on('clientConnected', function() { self.__broker_connected; } );
+        this.mqttServer.on('published', function() { self.__broker_published; } );
+        this.mqttServer.on('subscribed', function() { self.__broker_subscribed; } );
+        this.mqttServer.on('unsubscribed', function() { self.__broker_unsubscribed; } );        
+        this.mqttServer.on('clientDisconnecting', function() { self.__broker_disconnecting; } );
+        this.mqttServer.on('clientDisconnected', function() { self.__broker_disconnected; } );
+        console.log('[MQTT] Mosca server is up and running on port ' + self.mqttPort);
     }
 
     /**
