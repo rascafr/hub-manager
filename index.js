@@ -309,7 +309,7 @@ class HubManager {
     /**
      * Private function, fired when a client is disconnected
      */
-    __broker_disconnected = function (client) {
+    __broker_disconnected(client) {
         console.log('[HubManager MQTT] ' + client.id + ' is now disconnected');
         if (this.onClientDisconnected != null) {
             this.onClientDisconnected(client);

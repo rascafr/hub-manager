@@ -1,0 +1,26 @@
+{
+  "name": "hub-manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rascafr/hub-manager.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rascafr/hub-manager/issues"
+  },
+  "homepage": "https://github.com/rascafr/hub-manager#readme",
+  "dependencies": {
+    "core-util-is": "^1.0.2",
+    "mosca": "^2.5.1",
+    "process-nextick-args": "^1.0.7",
+    "util-deprecate": "^1.0.2"
+  },
+  "devDependencies": {}
+}
