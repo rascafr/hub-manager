@@ -205,7 +205,7 @@ class HubManager {
             }
         );
         moscaPersistenceDB.wire(this.mqttServer);
-        this.mqttServer.on('ready', this.__broker_setup); // engage the broker setup procedure
+        this.mqttServer.on('ready', self.__broker_setup); // engage the broker setup procedure
     }
 
     /**
@@ -213,7 +213,7 @@ class HubManager {
      */
     __broker_setup() {
         console.log(this);
-        this.mqttServer.authenticate =               this.__broker_auth;
+        /*this.mqttServer.authenticate =               this.__broker_auth;
         this.mqttServer.authorizePublish =           this.__broker_allow_sub;
         this.mqttServer.authorizeSubscribe =         this.__broker_allow_sub;
         this.mqttServer.on('clientConnected',        this.__broker_connected);
@@ -222,7 +222,7 @@ class HubManager {
         this.mqttServer.on('unsubscribed',           this.__broker_unsubscribed);
         this.mqttServer.on('clientDisconnecting',    this.__broker_disconnecting);
         this.mqttServer.on('clientDisconnected',     this.__broker_disconnected);
-        console.log('[MQTT] Mosca server is up and running on port ' + this.mqttPort);
+        console.log('[MQTT] Mosca server is up and running on port ' + this.mqttPort);*/
     }
 
     /**
