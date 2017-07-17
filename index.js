@@ -222,8 +222,8 @@ class HubManager {
      * Private function, fired when the mqtt server is ready
      */
     __broker_setup() {
-        this.mqttServer.authenticate = this.__broker_auth;;
-        this.mqttServer.authorizePublish = this.__broker_allow_sub;
+        this.mqttServer.authenticate = this.__broker_auth;
+        this.mqttServer.authorizePublish = this.__broker_allow_pub;
         this.mqttServer.authorizeSubscribe = this.__broker_allow_sub;
         this.mqttServer.on('clientConnected', this.__broker_connected);
         this.mqttServer.on('published', this.__broker_published);
