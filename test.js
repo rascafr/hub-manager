@@ -6,22 +6,22 @@ var hm = new HubManager(1883, 27017);
 
 console.log(hm);
 
+var auth_conn = function (client, username, password) { 
+	return true; 
+}
+
+var auth_subs = function (client, topic) { 
+	return true; 
+}
+
+var auth_publ = function (client, topic, payload) { 
+	return true 
+}
+
 // add a connection auth callback
-hm.authorizeClientConnection(
-	function (client, username, password) { 
-		return true; 
-	}
-);
-hm.authorizeClientSubscription(
-	function (client, topic) { 
-		return true; 
-	}
-);
-hm.authorizeClientPublish(
-	function (client, topic, payload) { 
-		return true 
-	}
-);
+hm.authorizeClientConnection(auth_conn);
+hm.authorizeClientSubscription(auth_subs);
+hm.authorizeClientPublish(auth_publ);
 
 // Setup the manager
 hm.setup();
