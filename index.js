@@ -250,8 +250,8 @@ class HubManager {
      * Private function, used to allow client subscription
      */
     __broker_allow_sub(client, topic, callback) {
-        if (that.authorizeClientSubscription != null) {
-            callback(null, that.authorizeClientSubscription(client, topic));
+        if (that.authSubCallback != null) {
+            callback(null, that.authSubCallback(client, topic));
         } else {
             callback(null, false); // block subscribe if no callback define
         }
@@ -261,8 +261,8 @@ class HubManager {
      * Private function, used to allow client publish action
      */
     __broker_allow_pub(client, topic, payload, callback) {
-        if (that.authorizeClientPublish != null) {
-            callback(null, that.authorizeClientPublish(client, topic, payload));
+        if (that.authPubCallback != null) {
+            callback(null, that.authPubCallback(client, topic, payload));
         } else {
             callback(null, false); // block every publish if no callback defined
         }
@@ -273,8 +273,8 @@ class HubManager {
      */
     __broker_connected(client) {
         console.log('[HubManager MQTT] ' + client.id + ' is now connected');
-        if (that.onClientConnected != null) {
-            that.onClientConnected(client);
+        if (that.connCallback != null) {
+            that.connCallback(client);
         }
     };
 
@@ -286,8 +286,8 @@ class HubManager {
         // quick fix moche comme MJ
         if (client != undefined) {
             console.log('[HubManager MQTT] ' + client.id + ' published "' + JSON.stringify(packet.payload) + '" to ' + packet.topic);
-            if (that.onClientPublished != null) {
-                that.onClientPublished(client, packet.topic, packet.payload);
+            if (that.pubCallback != null) {
+                that.pubCallback(client, packet.topic, packet.payload);
             }
         }
     };
@@ -297,8 +297,8 @@ class HubManager {
      */
     __broker_subscribed(topic, client) {
         console.log('[HubManager MQTT] ' + client.id + ' has subscribed to ' + topic);
-        if (that.onClientSubscribed != null) {
-            that.onClientSubscribed(client, topic);
+        if (that.subCallback != null) {
+            that.subCallback(client, topic);
         }
     };
 
@@ -307,8 +307,8 @@ class HubManager {
      */
     __broker_unsubscribed(topic, client) {
         console.log('[HubManager MQTT] ' + client.id + ' has unsubscribed from ' + topic);
-        if (that.onClientUnsubscribed != null) {
-            that.onClientUnsubscribed(client, topic);
+        if (that.unsubCallback != null) {
+            that.unsubCallback(client, topic);
         }
     };
 
@@ -325,8 +325,8 @@ class HubManager {
      */
     __broker_disconnected(client) {
         console.log('[HubManager MQTT] ' + client.id + ' is now disconnected');
-        if (that.onClientDisconnected != null) {
-            that.onClientDisconnected(client);
+        if (that.discCallback != null) {
+            that.discCallback(client);
         }
     };
 }
