@@ -144,7 +144,7 @@ class HubManager {
      * @memberof HubManager
      */
     publishSimplePacket(data, topic) {
-        publishComplexPacket(data, topic, 0, false);
+        this.publishComplexPacket(data, topic, 0, false);
     }
 
     /**
@@ -163,7 +163,7 @@ class HubManager {
             retain: retain // true or false
         };
 
-        server.publish(message, /*client,*/ function () {
+        this.mqttServer.publish(message, /*client,*/ function () {
             console.log('[HubManager MQTT] Publish done (to ' + topic + ')');
         });
     }
@@ -189,9 +189,9 @@ class HubManager {
         };
 
         // create the instance
-        this.mqttServer = new mosca.Server(settings);
+        this.mqttServer = new mqttBroker.Server(settings);
 
-        var moscaPersistenceDB = new mosca.persistence.Mongo({
+        var moscaPersistenceDB = new mqttBroker.persistence.Mongo({
             url: 'mongodb://localhost:' + this.mongodbPort + '/moscaPersistence',
             ttl: {
                 subscriptions: this.ttlSub,
@@ -203,20 +203,22 @@ class HubManager {
             }
         );
         moscaPersistenceDB.wire(this.mqttServer);
-        this.mqttServer.on('ready', __broker_setup); // engage the broker setup procedure
+        this.mqttServer.on('ready', this.__broker_setup); // engage the broker setup procedure
     }
 
     /**
      * Private function, fired when the mqtt server is ready
      */
     __broker_setup() {
-        server.authenticate = __broker_auth;
-        server.on('clientConnected', __broker_connected);
-        server.on('published', __broker_published);
-        server.on('subscribed', __broker_subscribed);
-        server.on('unsubscribed', __broker_unsubscribed);
-        server.on('clientDisconnecting', __broker_disconnecting);
-        server.on('clientDisconnected', __broker_disconnected);
+        server.authenticate =               this.__broker_auth;
+        server.authorizePublish =           this.__broker_allow_sub;
+        server.authorizeSubscribe =         this.__broker_allow_sub;
+        server.on('clientConnected',        this.__broker_connected);
+        server.on('published',              this.__broker_published);
+        server.on('subscribed',             this.__broker_subscribed);
+        server.on('unsubscribed',           this.__broker_unsubscribed);
+        server.on('clientDisconnecting',    this.__broker_disconnecting);
+        server.on('clientDisconnected',     this.__broker_disconnected);
         console.log('[MQTT] Mosca server is up and running on port ' + this.mqttPort);
     }
 
