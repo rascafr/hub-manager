@@ -210,15 +210,15 @@ class HubManager {
      * Private function, fired when the mqtt server is ready
      */
     __broker_setup() {
-        mqttServer.authenticate =               this.__broker_auth;
-        mqttServer.authorizePublish =           this.__broker_allow_sub;
-        mqttServer.authorizeSubscribe =         this.__broker_allow_sub;
-        mqttServer.on('clientConnected',        this.__broker_connected);
-        mqttServer.on('published',              this.__broker_published);
-        mqttServer.on('subscribed',             this.__broker_subscribed);
-        mqttServer.on('unsubscribed',           this.__broker_unsubscribed);
-        mqttServer.on('clientDisconnecting',    this.__broker_disconnecting);
-        mqttServer.on('clientDisconnected',     this.__broker_disconnected);
+        this.mqttServer.authenticate =               this.__broker_auth;
+        this.mqttServer.authorizePublish =           this.__broker_allow_sub;
+        this.mqttServer.authorizeSubscribe =         this.__broker_allow_sub;
+        this.mqttServer.on('clientConnected',        this.__broker_connected);
+        this.mqttServer.on('published',              this.__broker_published);
+        this.mqttServer.on('subscribed',             this.__broker_subscribed);
+        this.mqttServer.on('unsubscribed',           this.__broker_unsubscribed);
+        this.mqttServer.on('clientDisconnecting',    this.__broker_disconnecting);
+        this.mqttServer.on('clientDisconnected',     this.__broker_disconnected);
         console.log('[MQTT] Mosca server is up and running on port ' + this.mqttPort);
     }
 
