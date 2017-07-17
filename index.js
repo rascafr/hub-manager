@@ -191,6 +191,8 @@ class HubManager {
         // create the instance
         this.mqttServer = new mqttBroker.Server(settings);
 
+        var self = this;
+
         var moscaPersistenceDB = new mqttBroker.persistence.Mongo({
             url: 'mongodb://localhost:' + this.mongodbPort + '/moscaPersistence',
             ttl: {
@@ -199,7 +201,7 @@ class HubManager {
             }
         },
             function () {
-                console.log('[HubManager] server persistence is ready on port ' + this.mongodbPort)
+                console.log('[HubManager] server persistence is ready on port ' + self.mongodbPort)
             }
         );
         moscaPersistenceDB.wire(this.mqttServer);
