@@ -1,7 +1,7 @@
 {
   "name": "hub-manager",
   "version": "1.0.0",
-  "description": "",
+  "description": "MQTT interface for Node.js",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/rascafr/hub-manager.git"
   },
-  "author": "",
+  "author": "Francois Leparoux",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/rascafr/hub-manager/issues"
